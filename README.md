@@ -1,2 +1,2 @@
 # rust-anagram-solver
-Anagram solver in rust
+To learn Rust, I am writing an anagram solver.
