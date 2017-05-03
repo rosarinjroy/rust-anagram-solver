@@ -66,20 +66,19 @@ fn main() {
             }
         }
     }
-    for (k, v) in &anagrams {
-        println!("{}: {:?}", k, v);
-    }
 
-    // Prints each argument on a separate line
-    let mut last_anagram_key = String::from("");
+    // Prints anagrams of each argument.
     for argument in env::args().skip(1) {
         if let Some(anagram_key) = get_anagram_key(&argument) {
-            if last_anagram_key != String::from("") && last_anagram_key != anagram_key {
-                println!("All arguments are not anagrams.");
-                return
+            if let Some(v) = anagrams.get(&anagram_key) {
+                println!("Anagrams of {}:", argument);
+                for s in v.iter() {
+                    println!("  {}", s);
+                }
+                println!("----");
+            } else {
+                println!("There are no anagrams in wordlist file for {}.", argument);
             }
-            last_anagram_key = anagram_key;
         }
     }
-    println!("All arguments are anagrams");
 }
