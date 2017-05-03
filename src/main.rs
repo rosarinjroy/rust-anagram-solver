@@ -5,6 +5,7 @@ use std::io::BufReader;
 use std::io::BufRead;
 use std::env::current_dir;
 use std::collections::{BTreeMap, HashMap};
+use std::env;
 
 fn get_anagram_key(trimmed: &String) -> Option<String> {
     if trimmed.starts_with("#") || trimmed.len() == 0 {
@@ -68,4 +69,17 @@ fn main() {
     for (k, v) in &anagrams {
         println!("{}: {:?}", k, v);
     }
+
+    // Prints each argument on a separate line
+    let mut last_anagram_key = String::from("");
+    for argument in env::args().skip(1) {
+        if let Some(anagram_key) = get_anagram_key(&argument) {
+            if last_anagram_key != String::from("") && last_anagram_key != anagram_key {
+                println!("All arguments are not anagrams.");
+                return
+            }
+            last_anagram_key = anagram_key;
+        }
+    }
+    println!("All arguments are anagrams");
 }
