@@ -12,7 +12,6 @@ fn get_anagram_key(trimmed: &String) -> Option<String> {
         return None;
     }
 
-    println!("[{}]", trimmed);
     let mut char_histo = BTreeMap::new();
     for c in trimmed.chars() {
         let new_val = match char_histo.get(&c) {
@@ -35,7 +34,7 @@ fn main() {
     };
     abspath.push("word.lst");
 
-    println!("Word list file abspath: {}", abspath.display());
+    println!("Loading word list from abspath: {}", abspath.display());
 
     if !abspath.exists() {
         panic!("Word list file {} does not exist. Aborting.", abspath.display());
@@ -54,8 +53,6 @@ fn main() {
         let trimmed = String::from(line.unwrap().trim());
 
         if let Some(anagram_key) = get_anagram_key(&trimmed) {
-            println!("Anagram key: {:?}", anagram_key);
-
             if !anagrams.contains_key(&anagram_key) {
                 let b = Box::<Vec<String>>::new(Vec::<String>::new());
                 anagrams.insert(anagram_key.clone(), b);
@@ -71,7 +68,7 @@ fn main() {
     for argument in env::args().skip(1) {
         if let Some(anagram_key) = get_anagram_key(&argument) {
             if let Some(v) = anagrams.get(&anagram_key) {
-                println!("Anagrams of {}:", argument);
+                println!("\nAnagrams of {}:", argument);
                 for s in v.iter() {
                     println!("  {}", s);
                 }
